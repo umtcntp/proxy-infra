@@ -1,0 +1,60 @@
+{
+	servers {
+		protocols h1 h2
+	}
+}
+
+# -------------------------
+# E-COMMERCE APP
+# -------------------------
+{$ECOMMERCEAPP_DOMAIN:invalid} {
+	encode gzip
+	reverse_proxy frontend-test:80
+}
+
+www.{$ECOMMERCEAPP_DOMAIN:invalid} {
+	redir https://{$ECOMMERCEAPP_DOMAIN:invalid}{uri} permanent
+}
+
+api.{$ECOMMERCEAPP_DOMAIN:invalid} {
+	reverse_proxy api-test:4000
+	header {
+		-X-Powered-By
+		-Server
+		Strict-Transport-Security max-age=31536000;
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		X-XSS-Protection "1; mode=block"
+	}
+
+	rate_limit {
+		zone api_limit {
+			key {http.request.header.CF-Connecting-IP}
+			events 100
+			window 1m
+		}
+
+		zone burst_limit {
+			key {http.request.header.CF-Connecting-IP}
+			events 20
+			window 1s
+		}
+	}
+}
+
+admin.{$ECOMMERCEAPP_DOMAIN:invalid} {
+	reverse_proxy admin-test:80
+}
+
+# -------------------------
+# PORTFOLIO APP
+# -------------------------
+{$PORTFOLIOAPP_DOMAIN:invalid} {
+	encode gzip
+	reverse_proxy portfolio:80
+}
+
+www.{$PORTFOLIOAPP_DOMAIN:invalid} {
+	redir https://{$PORTFOLIOAPP_DOMAIN:invalid}{uri} permanent
+}
+
