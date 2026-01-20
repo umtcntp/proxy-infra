@@ -1,11 +1,11 @@
-name: proxy-test
+name: proxy
 
 services:
   caddy:
     build:
       context: ./caddy
       dockerfile: Dockerfile
-    container_name: caddy-test
+    container_name: caddy
     restart: unless-stopped
     ports:
       - "80:80"
@@ -15,14 +15,14 @@ services:
       PORTFOLIOAPP_DOMAIN: ${PORTFOLIOAPP_DOMAIN}
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data_test:/data
-      - caddy_config_test:/config
+      - caddy_data:/data
+      - caddy_config:/config
     networks:
       - proxy
 
 volumes:
-  caddy_data_test:
-  caddy_config_test:
+  caddy_data:
+  caddy_config:
 
 networks:
   proxy:
