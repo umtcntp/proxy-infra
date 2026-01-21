@@ -9,7 +9,7 @@
 # -------------------------
 {$ECOMMERCEAPP_DOMAIN:invalid} {
 	encode gzip
-	reverse_proxy frontend-test:80
+	reverse_proxy frontend:80
 }
 
 www.{$ECOMMERCEAPP_DOMAIN:invalid} {
@@ -17,7 +17,7 @@ www.{$ECOMMERCEAPP_DOMAIN:invalid} {
 }
 
 api.{$ECOMMERCEAPP_DOMAIN:invalid} {
-	reverse_proxy api-test:4000
+	reverse_proxy api:4000
 	header {
 		-X-Powered-By
 		-Server
@@ -43,7 +43,7 @@ api.{$ECOMMERCEAPP_DOMAIN:invalid} {
 }
 
 admin.{$ECOMMERCEAPP_DOMAIN:invalid} {
-	reverse_proxy admin-test:80
+	reverse_proxy admin:80
 }
 
 # -------------------------
