@@ -37,15 +37,15 @@ www.{$PORTFOLIOAPP_DOMAIN:invalid} {
 # -------------------------
 # UGC ADS APP
 # -------------------------
-{$UGCADS_DOMAIN:invalid} {
+{$UGCAPP_DOMAIN:invalid} {
   encode gzip
   reverse_proxy ugc_frontend:80
 }
 
-www.{$UGCADS_DOMAIN:invalid} {
-  redir https://{$UGCADS_DOMAIN:invalid}{uri} permanent
+www.{$UGCAPP_DOMAIN:invalid} {
+  redir https://{$UGCAPP_DOMAIN:invalid}{uri} permanent
 }
 
-api.{$UGCADS_DOMAIN:invalid} {
+api.{$UGCAPP_DOMAIN:invalid} {
   reverse_proxy ugc_api:5050
 }
